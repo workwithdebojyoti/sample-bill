@@ -1,0 +1,12 @@
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Biller
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu" *ngFor= 'let biller of billers'>
+    <li><a href="#">{{biller}}</a></li>
+  </ul>
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Bill Type
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu" *ngFor= 'let billType of billTypes'>
+    <li><a href="#">{{billType}}</a></li>
+  </ul>
+</div>
