@@ -1,0 +1,61 @@
+<form [formGroup]="addEmployeeFormGroup">
+    <div class="card-header" style="margin: 5px 0 22px 0;">
+        <p>Register new employee</p>
+      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+              <label>Name :</label>
+            </div>
+            <div class="col-sm-6">
+              <input class="form-control" formControlName="name">
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                <label>Organisation :</label>
+              </div>
+              <mat-form-field>
+                  <mat-select formControlName="organisation">
+                    <mat-option *ngFor="let org of orgnisations" [value]="org">
+                      {{org}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Age :</label>
+            </div>
+            <div class="col-sm-6">
+              <input class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Salary :</label>
+            </div>
+            <div class="col-sm-6">
+              <input type="number" class="form-control" formControlName="salary">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label>Mobile Number :</label>
+            </div>
+            <div class="col-sm-6">
+              <input class="form-control" formControlName="mobile">
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn" [mat-dialog-close]="false">Cancel</button>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-success" [mat-dialog-close]="true" (click)='addEmployee()'>Add</button>
+            </div>
+          </div>
+  </div>
+</form>
+

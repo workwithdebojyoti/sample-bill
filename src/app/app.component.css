@@ -1,0 +1,13 @@
+.nav-link {
+    color: #fd7014! important;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+ul .active {
+    border-bottom: 2px solid #28a745;
+}
+
+

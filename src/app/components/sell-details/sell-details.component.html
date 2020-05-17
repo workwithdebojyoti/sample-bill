@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="row">
+      <label>Sell summary of - {{billerControl.value}}</label>
+    </div>
+    <div class="card row">
+        <div class="card-header">
+          <label>Monthly Sell Details</label>
+        </div>
+        <div class="card-body">
+          <div class="row">
+              <div class="col-md-3">
+                  <mat-form-field>
+                      <mat-label>Month of Sale</mat-label>
+                      <mat-select [formControl]="monthControl">
+                        <mat-option *ngFor="let month of months" [value]="month.monthValue">
+                          {{month.monthName}}
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <!-- <Label>Year:</Label> -->
+                    <!-- <input class="form-control" type="text" [formControl]="yearControl"/> -->
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Year" value="2020" [formControl]="yearControl">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field>
+                    <mat-label>Seller Name</mat-label>
+                    <mat-select [formControl]="billerControl">
+                      <mat-option *ngFor="let seller of sellers" [value]="seller">
+                        {{seller}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-primary" (click)='getMonthlySellSummary()'>Details</button>
+                </div>
+          </div>
+          <div class="row">
+              <kendo-grid [data]="monthlySellList" [height]="350" 
+                [pageSize]="10"
+                [pageable]="true"
+                [sortable]="true">
+            <ng-template kendoGridToolbarTemplate>
+                <button type="button" kendoGridExcelCommand icon="file-excel">Export to Excel</button>
+            </ng-template>
+            <kendo-grid-column field="billNumber" title="Bill Number" width="40">
+              </kendo-grid-column>
+            <kendo-grid-column field="billDate" title="Order Date" width="40">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.billDate | date : 'dd/MM/yyyy'}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Billed To" width="40">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.party.partyName}}
+              </ng-template>
+              </kendo-grid-column>
+            <kendo-grid-column field="billTotal" title="Order Total" width="40">
+            </kendo-grid-column>
+            <kendo-grid-column field="billTotalTax" title="GST Received" width="40">
+            </kendo-grid-column>
+            <!-- <kendo-grid-column field="orderDetails" title="Order Details" width="40">
+            </kendo-grid-column> -->
+            <kendo-grid-column field="billPaymentStatus" title="Payment Status" width="40">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <span [hidden]='!dataItem.billPaymentStatus' class="text-success">PAID</span>
+                    <span [hidden]='dataItem.billPaymentStatus' class="text-danger">DUE</span>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Action" width="40">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" title="edit payment status" (click) ='openDialog(rowIndex)'></i>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-excel [fileName]="fileName"></kendo-grid-excel>
+        </kendo-grid>
+          </div>
+          <div class="row col-md-12">
+            <div class="col-md-6">
+                <label>You are viewing sell summary for month : {{ months[currentMonth - 1].monthName}}</label>
+            </div>
+            <br/>
+            <div class="col-md-6">
+              <label>Monthly total sell amount - {{sellSummary.monthlyTotalSell}} and GST received - {{sellSummary.totalGSTReceived}}</label>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+</div>
+
+
+

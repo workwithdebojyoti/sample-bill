@@ -1,0 +1,57 @@
+
+<mat-dialog-content class="mat-typography">
+    <form class="text-center border border-light p-5" action="#!">
+        <h3><strong>Register, <u>{{party.mobileNumber}}!</u></strong></h3>
+        <div class="form-row mb-4">
+            <div class="col">
+                <!-- First name -->
+                <span>First Name</span><br/>
+                <input type="text" name="defaultRegisterFormFirstName" class="form-control" placeholder="First name" [(ngModel)] = 'firstName'>
+            </div>
+            <div class="col">
+                <!-- Last name -->
+                <span>Last Name</span><br/>
+                <input type="text" name="defaultRegisterFormLastName" class="form-control" placeholder="Last name" [(ngModel)] = 'lastName'>
+            </div>
+        </div>
+        <div class="form-row mb-4">
+            <div class="col">
+                <span>PAN Number </span>
+                <input class="form-control" name="txtPanNumber" [(ngModel)]='party.panNumber'> 
+            </div>
+            <div class="col">
+                <span>GSTN Number</span>
+                <input class="form-control" name="txtGSTNumber" [(ngModel)]='party.gstNumber'>
+            </div>
+        </div>
+        <div class="form-row mb-4">
+            <div class="col">
+                <span>Address</span>
+                <input name="txtAddress" class="form-control" [(ngModel)]='party.address'>
+            </div>
+        </div>
+        <div class="form-row mb-4">
+            <div class="col">
+                <span>City</span>
+                <input class="form-control" name="txtGSTNumber" [(ngModel)]='party.city'>
+            </div>
+            <div class="col">
+                <span>State</span>
+                <input name="txtState" class="form-control" [(ngModel)]='party.state'>
+            </div>
+        </div>
+        <div class="form-row mb-4">
+            <div class="col">
+                <span>Zipcode</span>
+                <input class="form-control" name ="txtGSTNumber" [(ngModel)]='party.zipCode'>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)='registerParty()'>Register</button>
+</mat-dialog-actions>
+
+
+
