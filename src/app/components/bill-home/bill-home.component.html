@@ -1,0 +1,194 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="card-body">
+      <div class="col-md-3">
+        <span style="margin-right: 15px;">Biller</span>
+        <mat-form-field>
+          <mat-select [formControl]="billerControl">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let biller of billers" [value]="biller">
+              {{biller}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+          <span style="margin-right: 15px;">Bill Type</span>
+          <mat-form-field>
+            <mat-select [formControl]="billTypeControl">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let billType of billTypes" [value]="billType">
+                {{billType}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div> 
+ 
+  <div>
+    <div class="container-fluid">
+        <div class="card-header"><strong><span>Enter Bill Details</span> </strong></div>
+        <div class="card-body col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="col-md-3">Bill Number : </span>
+                    <input class="col-md-3 form-control" id="txtBillNumber" [(ngModel)] = 'billnumber'>
+                </div>
+                <div class="col-md-6">  
+                  <span class="col-md-3">Bill Date : </span>
+                  <!-- <kendo-datepicker [(value)]="billData.billDate"></kendo-datepicker> -->
+                  <app-custom-datepicker (selectedDate)="FetchSelectedBillDate($event)"></app-custom-datepicker>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+              <div class="col-md-6">
+                  <span class="col-md-3">SGST : </span>
+                  <input class="col-md-3 form-control" id="txtBillSGST" disabled>
+              </div>
+              <div class="col-md-6">
+                  <span class="col-md-3">CGST : </span>
+                  <input class="col-md-3 form-control" id="txtBillCGST" disabled>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6">
+                  <span class="col-md-3">Total Tax : </span>
+                  <input class="col-md-3 form-control" id="txtTotalTax" disabled>
+              </div>
+              <div class="col-md-6">
+                  <span class="col-md-3">Total : </span>
+                  <input class="col-md-3 form-control" id="txtBillTotal" [ngModel] = 'total' disabled>
+              </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container-fluid">
+      <div class="card-header"><strong><span>Enter Party Details</span></strong></div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-md-3">
+                  <span>Party Name : </span>
+                  <input class="form-control" id="txtPartyName" [(ngModel)] = 'partyDetails.partyName'>
+              </div>
+              <div class="col-md-3">
+                  <span>Mobile Number : </span>
+                  <input class="form-control" id="txtMobileNumber" [(ngModel)] = 'partyDetails.mobileNumber'> &nbsp;&nbsp;
+              </div>              
+              <a class="col-md-2" (click) = "checkPartyStatus()"><strong><u>Party Registered ?</u></strong></a>
+              <div *ngIf='!registeredParty' class="col-md-4">
+                  <span><strong>Party Not Registered with us.</strong></span>
+                  <app-dialog [party] = 'partyDetails' style="margin-left: 10px;"> </app-dialog>
+              </div>
+          </div> 
+            
+      </div>
+      
+      
+    </div>
+    <div class="container-fluid">
+        <div class="card-header"><span>Enter Bill Details</span></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3"><span>Delivered By</span></div>
+            <div class="col-md-3">
+              <mat-form-field>
+                <mat-select [formControl]="deliveryControl">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let deliveryOption of deliveryOptions" [value]="deliveryOptions">
+                    {{deliveryOption}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field></div>
+          </div>
+          <div class="row">
+              <div class="col-md-3"><span>Delivery Address</span></div> 
+              <div class="col-md-6"><textarea rows="3" cols="90"></textarea></div>
+          </div>
+        </div>
+    </div>
+  </div> 
+
+<!-- Dynamic row addition -->
+<div class="container-fluid">
+  <div class="card-header">
+    <span>Item details</span>
+  </div>
+  <div class="card-body">
+      <table class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                <th>Description</th>
+                <th>HSN / SAC</th>
+                <th>Quantity</th>
+                <th>Rate / 1000</th>
+                <th>Tax %</th>
+                <th>Item Tax</th>
+                <th>Item Total</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let field of fieldArray; let i = index">
+                  <td>
+                      <input [(ngModel)]="field.itemDetails" class="form-control" type="text" name="{{field.itemDetails}}" />
+                  </td>
+                  <td>
+                      <input [(ngModel)]="field.itemHSNCode" class="form-control" type="text" name="{{field.itemHSNCode}}" />
+                  </td>
+                  <td>
+                      <input [(ngModel)]="field.itemQuantity" class="form-control" type="text" name="{{field.itemQuantity}}" />
+                  </td>
+            <td>
+                      <input [(ngModel)]="field.itemRate" class="form-control" type="text" name="{{field.itemRate}}" />
+                  </td>
+            <td>
+                      <input [(ngModel)]="field.itemTaxPercentage" class="form-control" type="text" name="{{field.itemTaxPercentage}}" />
+                  </td>
+            <td>
+                      <input [(ngModel)]="field.itemTotalTax" class="form-control" type="text" name="{{field.itemTotalTax}}" />
+                  </td>
+            <td>
+                      <input [(ngModel)]="field.itemTotal" class="form-control" type="text" name="{{field.itemTotal}}" />
+                  </td>
+                  <td>
+                      <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <input class="form-control" type="text" id="newAttributeDetails" [(ngModel)]="newAttribute.itemDetails" name="newAttributeDetails" />
+                  </td>
+                  <td>
+                      <input class="form-control" type="text" id="newAttributeHSN" [(ngModel)]="newAttribute.itemHSNCode" name="newAttributeHSN" />
+                  </td>
+                  <td>
+                      <input class="form-control" type="text" id="newAttributeQuantity" [(ngModel)]="newAttribute.itemQuantity" name="newAttributeQuantity" />
+                  </td>
+            <td>
+                      <input class="form-control" type="text" id="newAttributeRate" [(ngModel)]="newAttribute.itemRate" name="newAttributeRate" />
+                  </td>
+            <td>
+                      <input class="form-control" type="text" id="newAttributeTaxPercentage" [(ngModel)]="newAttribute.itemTaxPercentage" name="newAttributeTaxPercentage" (change) ='calculateTax(newAttribute)' />
+                  </td>
+            <td>
+                      <input class="form-control" type="text" id="newAttributeTotalTax" [(ngModel)]="newAttribute.itemTotalTax" name="newAttributeTotalTax" disabled/>
+                  </td>
+            <td>
+                      <input class="form-control" type="text" id="newAttributeTotal" [(ngModel)]="newAttribute.itemTotal" name="newAttributeTotal" disabled/>
+                  </td>
+                  <td>
+                      <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+    
+  <div class="form-group">
+    <button class="btn btn-primary" (click)= "generateBill()">Bill</button>
+  </div>
+</div>
+

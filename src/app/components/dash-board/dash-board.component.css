@@ -1,0 +1,17 @@
+label {
+    font-size: 12px; 
+}
+.card {
+    min-height: 15rem;
+    min-width: 10rem;
+}
+p {
+    font-size: 16px; 
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+  }
+
+  

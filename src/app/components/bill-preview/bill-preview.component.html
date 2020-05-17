@@ -1,0 +1,127 @@
+
+<div class="container">
+    <div class="row border border-secondary" style="margin-left: 15px;">
+        <div class="col-5 div-container border-right border-secondary">
+            <p>Biller Info:</p>
+            <div id="company" class="biller-info menu-header" *ngIf='billData.billerName === "Paul Offset"'>
+                <div>{{billData.billerName}}</div>
+                <div><span>1/4 Ariff Road, Kolkata-700067, Westbengal</span></div>
+                <div><span>State : West Bengal, (State Code - 19)</span></div>
+                <div><span>Mobile No : (91) 8420027758</span></div>
+                <div><span>GSTIN : 19AFQPP3073D2Z5</span></div>
+            </div>
+            <div id="companyPB" class="clearfix col menu-header" *ngIf='billData.billerName === "Paul Box"'>
+                <div>{{billData.billerName}}</div>
+                <div>Shed no-11, Mini Industrial State, Kolkata-700067, Westbengal</div>
+                <div>State : West Bengal, (State Code - 19)</div>
+                <div>Mobile No : (91) 8420027758</div>
+                <div>GSTIN : 19AFQPP3073D2Z5</div>
+            </div>
+        </div>
+        
+
+        <div class="col-5 div-container">
+            <p>Invoice details:</p>
+            <div id="invoice" class="biller-info mr-5">
+                <div><span class="menu-header">Invoice Number: </span><span>{{billData.billNumber}}</span></div>
+                <div><span class="menu-header">Invoice Date : </span><span>{{billData.billDate | date : 'dd/MMM/yyyy'}}</span></div>
+                <div><span class="menu-header">Invoice Total: </span><span>{{billData.billTotal}}</span></div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row border border-secondary" style="margin-left: 15px;">
+        <div class="col-5 div-container border-right border-secondary">
+            <p>Receiver details:</p>
+            <div id="party" class="biller-info mr-5">
+                <div><span>Name :</span>{{billData.partyDetails.partyName}}</div>
+                <div><span>Address : </span>{{this.billData.partyDetails.address}}</div>
+                <div><span>Mobile Number :</span>(91) {{billData.partyDetails.mobileNumber}}</div>
+                <div><span>GSTIN / PAN :</span>{{billData.partyDetails.gstNumber}}</div>
+            </div>
+        </div>
+        <div class="col-5 div-container">
+            <p>Shipment details:</p>
+            <div id="invoice" class="biller-info mr-5">
+                <div>The items has been shipped to - </div>
+                <div>{{this.billData.partyDetails.address}}</div>
+                <div>By Van</div>
+            </div>
+        </div>
+    </div>
+    <br/>
+  <main>
+    <div class="row border border-secondary" style="margin-left: 15px;">
+        <table class="table table-striped">
+            <thead class="thead-dark border border-secondary">
+              <tr>
+                <th class="desc">DESCRIPTION</th>
+                <th>HSN/SAC</th>
+                <th>QTY</th>
+                <th>Rate</th>
+                <th>SGST</th>
+                <th>CGST</th>
+                <th>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let item of billData.itemList; let index = i'>
+                <td> {{ item.itemDetails}}</td>
+                <td> {{ item.itemHSNCode}}</td>
+                <td> {{ item.itemQuantity}}</td>
+                <td> {{ item.itemRate}}</td>
+                <td> {{ item.itemTotalTax /2}}<strong>({{item.itemTaxPercentage / 2}}%)</strong></td>
+                <td> {{ item.itemTotalTax /2}}<strong>({{item.itemTaxPercentage / 2}}%)</strong></td>
+                <td> {{ item.itemTotal}}</td>
+              </tr>
+              <tr>
+                <td colspan="7">TOTAL TAX</td>
+                <td class="total">{{billData.billTotalTax}}</td>
+              </tr>
+              <tr>
+                  <td colspan="7">ITEM TOTAL</td>
+                  <td class="total">{{billData.billTotal - billData.billTotalTax}}</td>
+                </tr>
+              <tr>
+                <td colspan="7" class="grand total"><strong>GRAND TOTAL</strong></td>
+                <td class="grand total"><strong>{{billData.billTotal}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <br/>
+    <div class="row border border-secondary" style="margin-left: 15px;">
+        <div class="col-md-7 div-container border-right border-secondary">
+            <p>Bank details:</p>
+            <div id="invoice" class="biller-info mr-5" *ngIf='billData.billerName === "Paul Offset"'>
+                <div>Bank Name : <span> INDIAN OVERSEAS Bank</span></div>
+                <div>Branch :<span> Shyambazar</span></div>
+                <div>A/c No. :<span> 00820200002008</span></div>
+                <div>IFSC : <span> IOBA0000082</span></div>
+            </div>
+            <div id="invoice" class="biller-info mr-5" *ngIf='billData.billerName === "Paul Box"'>
+                <div>Bank Name : <span> UCO Bank</span></div>
+                <div>Branch :<span> Ultadanga</span></div>
+                <div>A/c No. :<span> 09730210000366</span></div>
+                <div>IFSC : <span> UCBA0000973</span></div>
+            </div>
+        </div>
+        
+    </div>
+    <br/>
+    <br/><br/>
+    <div class="row">
+      <div class="col-md-12 div-container" style="margin-left: 15px;margin-top: 30px;">
+          <p style="float: right">Signature with stamp</p>
+        </div>
+    </div>
+    <div id="notices" class="row border border-secondary" style="margin-left: 15px;">
+      <div><p><strong>Notice</strong></p></div>
+      <div class="notice"><span style="margin-top: 5px;"><strong>Finance charge of 1.5% will be made on unpaid balances after 30 days.</strong></span> </div>
+    </div>
+  </main>
+</div>
+      
+      <!-- <footer>
+        Invoice was created on a computer and is valid without the signature and seal.
+      </footer> -->

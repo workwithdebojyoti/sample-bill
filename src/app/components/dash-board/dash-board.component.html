@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="row">
+    <p>Summary</p>
+  </div>
+  
+  <div class="row">
+      <div class="card-columns">
+          <div class="card bg-primary">
+            <div class="card-body text-left">
+              <p class="card-text">{{currentMonth}} month's standings for Paul Offset</p>
+                <label><strong> Sell :</strong> {{paulOffsetMonthlySummary.monthlyTotalSell}}</label><br/>
+                <label><strong> Purchase :</strong> {{paulOffsetMonthlySummary.monthlyTotalPurchase}}</label><br/>
+                <label><strong> GST Paid :</strong> {{paulOffsetMonthlySummary.totalGSTPaid}}</label><br/>
+                <label><strong> GST Recieved :</strong> {{paulOffsetMonthlySummary.totalGSTReceived}}</label><br/>
+                <label><strong> Expense :</strong> {{paulOffsetMonthlySummary.expense}}</label><br/>
+            </div>
+          </div>
+          <div class="card bg-success">
+            <div class="card-body text-left">
+                <p class="card-text">{{currentMonth}} month's standings for Paul Box</p>
+                <label><strong> Sell :</strong> {{paulBoxMonthlySummary.monthlyTotalSell}}</label><br/>
+                <label><strong> Purchase :</strong> {{paulBoxMonthlySummary.monthlyTotalPurchase}}</label><br/>
+                <label><strong> GST Paid :</strong> {{paulBoxMonthlySummary.totalGSTPaid}}</label><br/>
+                <label><strong> GST Recieved :</strong> {{paulBoxMonthlySummary.totalGSTReceived}}</label><br/>
+                <label><strong> Expense :</strong> {{paulBoxMonthlySummary.expense}}</label><br/>
+          </div>
+          </div>
+          <div class="card bg-warning">
+              <div class="card-body text-left">
+                  <p class="card-text">2020 Total Standings (Paul Offset || Paul Box)</p>
+                  <label><strong> Sell :</strong> 5600 || 7300</label><br/>
+                  <label><strong> Purchase :</strong> 8500 || 8900</label><br/>
+                  <label><strong> GST Paid :</strong> 500 || 650</label><br/>
+                  <label><strong> GST Recieved :</strong> 600 || 350</label><br/>
+                  <label><strong> Expense :</strong> 2500 || 2700</label><br/>
+              </div>
+          </div>
+          
+          
+        </div>
+  </div>
+  <!-- Performance Chart-->
+  <div class="row">
+    <p>Analytics</p>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+        <kendo-chart [seriesColors]="['#28a745', '#dc3545']">
+            <kendo-chart-title text="Paul Box"></kendo-chart-title>
+            <kendo-chart-category-axis>
+                <kendo-chart-category-axis-item [categories]="last3Months">
+                </kendo-chart-category-axis-item>
+            </kendo-chart-category-axis>
+            <kendo-chart-series>
+              <kendo-chart-series-item type="column" [gap]="2" [spacing]=".25" [data]="paulBoxPurchase">
+              </kendo-chart-series-item>
+              <kendo-chart-series-item [data]="paulBoxSell">
+              </kendo-chart-series-item>
+              
+            </kendo-chart-series>
+          </kendo-chart>
+    </div>
+    <div class="col-md-6">
+        <kendo-chart [seriesColors]="['#dc3545', '#28a745']">
+            <kendo-chart-title text="Paul Offset"></kendo-chart-title>
+            <kendo-chart-category-axis>
+                <kendo-chart-category-axis-item [categories]="last3Months">
+                </kendo-chart-category-axis-item>
+            </kendo-chart-category-axis>
+            <kendo-chart-series>
+              <kendo-chart-series-item type="column" [gap]="2" [spacing]=".25" [data]="paulOffsetPurchase">
+              </kendo-chart-series-item>
+              <kendo-chart-series-item [data]="paulOffsetSell">
+              </kendo-chart-series-item>
+              
+            </kendo-chart-series>
+          </kendo-chart>
+    </div>
+  </div>
+  <!-- Employee Section-->
+  <br/>
+  <br/>
+  <div class="row">
+    <div class="col-md-9">
+      <p>Employee</p>
+    </div>
+    <div class="col-md-3">
+      <p style="text-align: right" title="add employee">
+        <i class="fa fa-plus-square" style="font-size:24px;" (click)="openAddEmployeeDialog()"></i>
+      </p>
+    </div>
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-select [formControl]="organisationControl" (selectionChange)='organisationChange($org)'>
+              <mat-option *ngFor="let org of orgnisations" [value]="org">
+                {{org}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+  </div>
+  
+  <div class="row">
+      <table mat-table [dataSource]="employees$ | async" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="employeeID">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.employeeID}} </td>
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+        
+          <!-- Mobile Column -->
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+          </ng-container>
+        
+          <!-- organisation Column -->
+          <ng-container matColumnDef="organisation">
+            <th mat-header-cell *matHeaderCellDef> Organisation </th>
+            <td mat-cell *matCellDef="let element"> {{element.organisation}} </td>
+          </ng-container>
+         <!-- Salary Column -->
+         <ng-container matColumnDef="salary">
+            <th mat-header-cell *matHeaderCellDef> Salary </th>
+            <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  </div>
+ 
+
+</div>

@@ -1,0 +1,9 @@
+span {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left!important;
+}
+
+.card {
+    height: 15 rem;
+}

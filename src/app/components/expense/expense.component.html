@@ -1,0 +1,179 @@
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-xs-9">
+            <label>Total Expense - {{ +rentPaid + +electricityBillPaid + +salaryPaid + +otherExpense}}</label>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-primary mr-4" (click)='submitExpense()'>Add Expense</button>
+            <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+        </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-label>Month of Expense</mat-label>
+                <mat-select [formControl]="monthControl">
+                  <mat-option *ngFor="let month of months" [value]="month.monthValue">
+                    {{month.monthName}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+              <!-- <Label>Year:</Label> -->
+              <!-- <input class="form-control" type="text" [formControl]="yearControl"/> -->
+              <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Year" value="2020" [formControl]="yearControl">
+              </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <mat-label>Seller Name</mat-label>
+              <mat-select [formControl]="billerControl">
+                <mat-option *ngFor="let biller of billers" [value]="biller">
+                  {{biller}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+      </div>
+        
+    </div>
+    <!-- <div class="row">
+      <button type="button" class="btn btn-primary mr-4" data-toggle="modal" data-target="#exampleModal">Add Employee</button>
+    </div> -->
+    <!-- Modal for add employee -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- End Modal-->
+    
+    <!-- Labour Details -->
+    <div class="row  col-xs-12 mb-3">
+          <div class="card">
+            <div class="card-header">
+              <label>Labour Expense</label>
+            </div>
+            <div class="card card-body">
+              <!--Dynamic row-->
+              <table class="table table-striped table-bordered">
+                  <thead>
+                      <tr>
+                          <th>Name</th>
+                          <th>Week 1</th>
+                          <th>Week 2</th>
+                          <th>Week 3</th>
+                    <th>Week 4</th>
+                    <th>Total</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let field of fieldArray; let i = index">
+                          <td>
+                              <input [(ngModel)]="field.labourName" class="form-control" type="text" name="{{field.labourName}}" />
+                          </td>
+                          <td>
+                              <input [(ngModel)]="field.w1Expense" class="form-control" type="number" name="{{field.w1Expense}}" />
+                          </td>
+                          <td>
+                              <input [(ngModel)]="field.w2Expense" class="form-control" type="number" name="{{field.w2Expense}}" />
+                          </td>
+                    <td>
+                              <input [(ngModel)]="field.w3Expense" class="form-control" type="number" name="{{field.w3Expense}}" />
+                          </td>
+                    <td>
+                              <input [(ngModel)]="field.w4Expense" class="form-control" type="number" name="{{field.w4Expense}}" (change)='calculateTotal(field)'/>
+                          </td>
+                    <td>
+                              <input [(ngModel)]="field.total" class="form-control" type="number" name="{{field.total}}" />
+                          </td>
+                          <td>
+                              <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <input class="form-control" type="text" id="newAttributeName" [(ngModel)]="newAttribute.labourName" name="newAttributeName" />
+                          </td>
+                          <td>
+                              <input class="form-control" type="number" id="newAttributeW1" [(ngModel)]="newAttribute.w1Expense" name="newAttributeW1" />
+                          </td>
+                          <td>
+                              <input class="form-control" type="number" id="newAttributeW2" [(ngModel)]="newAttribute.w2Expense" name="newAttributeW2" />
+                          </td>
+                          <td>
+                              <input class="form-control" type="number" id="newAttributeW3" [(ngModel)]="newAttribute.w3Expense" name="newAttributeW3" />
+                          </td>
+                          <td>
+                              <input class="form-control" type="number" id="newAttributeW4" [(ngModel)]="newAttribute.w4Expense" name="newAttributeW4" />
+                          </td>
+                          <td>
+                              <input class="form-control" type="number" id="newAttributeTotal" [(ngModel)]="newAttribute.total" name="newAttributeTotal" />
+                          </td>
+                          <td>
+                              <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+    </div>
+    <!-- Labour Details -->
+    <!-- Electricity Bill Details-->
+    <div class="row  col-xs-4 mb-3">
+      <div class="card">
+        <div class="card-header">
+          <label>Electricity bill paid</label>
+        </div>
+        <div class="card-body">
+          <input class="form-control" [(ngModel)]= 'electricityBillPaid'>
+        </div>
+      </div>
+    </div>
+    <!-- End Electricity Bill Details-->
+    <!-- Rent Details -->
+    <div class="row col-xs-4 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <label>Rent Paid</label>
+            
+          </div>
+          <div class="card-body">
+            <input class="form-control" [(ngModel)]= 'rentPaid'>
+          </div>
+        </div>
+      </div>
+      <!-- End Rent Details -->
+    <!-- Others-->
+    <div class="row col-xs-4 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <label>Other Expenses</label>
+          </div>
+          <div class="card-body">
+            <input class="form-control" [(ngModel)]= 'otherExpense'>
+          </div>
+        </div>
+    </div>
+    <!-- End Others-->
+  
+</div>
+
