@@ -20,7 +20,7 @@ export class DialogComponent implements OnInit, OnChanges {
   openDialog() {
     const dialogRef = this.dialog.open(DialogContentRegisterPartyComponent, {
       data: this.party,
-      height: '500px',
+      height: 'fit-content',
       width: '500px',
     });
 

@@ -1,57 +1,70 @@
-
-<mat-dialog-content class="mat-typography">
-    <form class="text-center border border-light p-5" action="#!">
-        <h3><strong>Register, <u>{{party.mobileNumber}}!</u></strong></h3>
-        <div class="form-row mb-4">
-            <div class="col">
-                <!-- First name -->
-                <span>First Name</span><br/>
-                <input type="text" name="defaultRegisterFormFirstName" class="form-control" placeholder="First name" [(ngModel)] = 'firstName'>
+<div class="container">
+    <mat-dialog-content class="mat-typography">
+        <form>
+            <div class="row">
+                <div class="col-12">
+                        <h2>Register new party.</h2>
+                </div>
+                
             </div>
-            <div class="col">
-                <!-- Last name -->
-                <span>Last Name</span><br/>
-                <input type="text" name="defaultRegisterFormLastName" class="form-control" placeholder="Last name" [(ngModel)] = 'lastName'>
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>First Name</mat-label>
+                        <input matInput placeholder="Swapan">
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput placeholder="Paul">
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-        <div class="form-row mb-4">
-            <div class="col">
-                <span>PAN Number </span>
-                <input class="form-control" name="txtPanNumber" [(ngModel)]='party.panNumber'> 
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Pan Number</mat-label>
+                        <input matInput placeholder="CTMPXXXXG">
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>GSTN Number</mat-label>
+                        <input matInput placeholder="XYYGHW">
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="col">
-                <span>GSTN Number</span>
-                <input class="form-control" name="txtGSTNumber" [(ngModel)]='party.gstNumber'>
+            <div class="row">
+                <mat-form-field class="col-12 example-full-width">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput placeholder="1/4 Ariff road"></textarea>
+                </mat-form-field>
             </div>
-        </div>
-        <div class="form-row mb-4">
-            <div class="col">
-                <span>Address</span>
-                <input name="txtAddress" class="form-control" [(ngModel)]='party.address'>
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>City</mat-label>
+                        <input matInput placeholder="Kolkata">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Zipcode</mat-label>
+                        <input matInput placeholder="700067">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>State</mat-label>
+                        <input matInput placeholder="West Bengal">
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-        <div class="form-row mb-4">
-            <div class="col">
-                <span>City</span>
-                <input class="form-control" name="txtGSTNumber" [(ngModel)]='party.city'>
+            <div class="row">
+                <button mat-dialog-close class="w3-button w3-grey">Cancel</button>
+                <button class="w3-button w3-orange">Register</button>
             </div>
-            <div class="col">
-                <span>State</span>
-                <input name="txtState" class="form-control" [(ngModel)]='party.state'>
-            </div>
-        </div>
-        <div class="form-row mb-4">
-            <div class="col">
-                <span>Zipcode</span>
-                <input class="form-control" name ="txtGSTNumber" [(ngModel)]='party.zipCode'>
-            </div>
-        </div>
-    </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)='registerParty()'>Register</button>
-</mat-dialog-actions>
-
-
-
+        </form>
+    </mat-dialog-content>
+</div>

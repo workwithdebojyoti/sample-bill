@@ -15,7 +15,7 @@ export class BillHomeComponent implements OnInit {
   public deliveryOptions: Array<string> = [];
   public billTypes: Array<string> = [];
   public partyDetails: PartyDetails = new PartyDetails();
-  public registeredParty = true;
+  public registeredParty = false;
   public selectedBiller = 'Select Biller';
   // Dynamic row Addition
   private fieldArray: Array<Item> = [];
