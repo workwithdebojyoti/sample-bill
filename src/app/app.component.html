@@ -1,22 +1,64 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse col-md-8" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item"><a class="nav-link" [ngClass]="{'nav-item active': selectedTabBill === true}" [routerLink]="'/bill'" (click)='changeTab("bill")'>Bill</a></li>
-      <li class="nav-item"><a class="nav-link" [routerLink]="'/purchase'" [ngClass]="{'nav-item active': selectedTabPurchase === true}" (click)='changeTab("purchase")'>Purchase</a></li>
-      <li class="nav-item"><a class="nav-link" [routerLink]="'/purchase-summary'" [ngClass]="{'nav-item active': selectedTabPS === true}" (click)='changeTab("purchase-summary")'>Purchase Summary</a></li>
-      <li class="nav-item"><a class="nav-link" [routerLink]="'/sell-summary'" [ngClass]="{'nav-item active': selectedTabSS === true}" (click)='changeTab("sell-summary")'>Sell Summary</a></li>
-      <li class="nav-item"><a class="nav-link" [routerLink]="'/expense'" [ngClass]="{'nav-item active': selectedTabExpense === true}" (click)='changeTab("expense")'>Expense</a></li>
+      <li class="nav-item"><a class="nav-link" [ngClass]="{'nav-item active': selectedTabBill === true}"
+          [routerLink]="'/bill'" (click)='changeTab("bill")'>Bill</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/purchase'"
+          [ngClass]="{'nav-item active': selectedTabPurchase === true}" (click)='changeTab("purchase")'>Purchase</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/purchase-summary'"
+          [ngClass]="{'nav-item active': selectedTabPS === true}" (click)='changeTab("purchase-summary")'>Purchase
+          Summary</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/sell-summary'"
+          [ngClass]="{'nav-item active': selectedTabSS === true}" (click)='changeTab("sell-summary")'>Sell Summary</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/expense'"
+          [ngClass]="{'nav-item active': selectedTabExpense === true}" (click)='changeTab("expense")'>Expense</a></li>
     </ul>
     <div class="col-md-4">
       <span class="col-md-2 float-right nav-link">{{currentDate | date :'dd/MMM/yyyy'}}</span>
     </div>
   </div>
-</nav>
+</nav> -->
+
+<div class="topnav" id="myTopnav">
+  <a href="#home">Easy Billing</a>
+  <a class="nav-link" [ngClass]="{'nav-item active': selectedTabBill === true}" [routerLink]="'/bill'"
+    (click)='changeTab("bill")'>Bill</a>
+  <a class="nav-link" [routerLink]="'/purchase'" [ngClass]="{'nav-item active': selectedTabPurchase === true}"
+    (click)='changeTab("purchase")'>Purchase</a>
+  <a class="nav-link" [routerLink]="'/purchase-summary'" [ngClass]="{'nav-item active': selectedTabPS === true}"
+    (click)='changeTab("purchase-summary")'>Purchase
+    Summary</a>
+  <a class="nav-link" [routerLink]="'/sell-summary'" [ngClass]="{'nav-item active': selectedTabSS === true}"
+    (click)='changeTab("sell-summary")'>Sell Summary</a>
+  <a class="nav-link" [routerLink]="'/expense'" [ngClass]="{'nav-item active': selectedTabExpense === true}"
+    (click)='changeTab("expense")'>Expense</a>
+  <a href="javascript:void(0);" class="icon">
+    <i class="fa fa-bars"></i>
+  </a>
+  <span class="col-md-2 float-right text-date">{{currentDate | date :'dd/MMM/yyyy'}}</span>
+</div>
 
 <router-outlet></router-outlet>
 <app-loader></app-loader>
+
+<div class="mini-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="copyright-text">
+          <p>© 2020
+            <a href="#"></a>. All rights reserved. Created by
+            <a href="#">Debojyoti</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
