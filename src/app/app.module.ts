@@ -30,6 +30,7 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { LoaderComponent } from './components/loader/loader.component';
 import { CommonService } from './services/common.service';
 import { DialogAddEmployeeComponent } from './components/dialog-add-employee/dialog-add-employee.component';
+import { FooterContentComponent } from './components/footer-content/footer-content.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { DialogAddEmployeeComponent } from './components/dialog-add-employee/dia
     ModalDialogComponent,
     DashBoardComponent,
     LoaderComponent,
-    DialogAddEmployeeComponent
+    DialogAddEmployeeComponent,
+    FooterContentComponent
   ],
   imports: [
     BrowserModule,
