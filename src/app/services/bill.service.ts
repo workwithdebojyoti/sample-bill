@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PartyDetails, Bill, MonthModel, MonthlyExpense,
-  PaymentDetails, MonthlySummary, EmployeeDetails, Organisation } from '../models/bill-common-model';
+import {
+  PartyDetails, Bill, MonthModel, MonthlyExpense,
+  PaymentDetails, MonthlySummary, EmployeeDetails, Organisation
+} from '../models/bill-common-model';
+import { HttpParams } from "@angular/common/http";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,9 +22,10 @@ export class BillService {
     return this.billData;
   }
   fetchPartyDetails(mobileNumber: string): Observable<PartyDetails> {
-    let apiUrl = 'https://localhost:44342/api/product/party/{mobileNumber}';
-    apiUrl = apiUrl.replace('{mobileNumber}', mobileNumber);
-    return this.http.get<PartyDetails>(apiUrl);
+    let apiUrl = 'https://localhost:44305/api/Party/mobileNumber';
+    const params = new HttpParams().set('mobileNumber', mobileNumber.toString());
+
+    return this.http.get<PartyDetails>(apiUrl, {params});
   }
   saveBillData(billData: Bill): Observable<any> {
     const apiUrl = 'https://localhost:44342/api/product/submitbill';
@@ -60,7 +65,7 @@ export class BillService {
   }
   UpdatePaymentDetails(billID: number, paymentID: number, paymentStatus: string): Observable<any> {
     let apiUrl =
-    'https://localhost:44342/api/product/selldetails/{billID}/paymentinfo/{paymentID}/status/{paymentStatus}';
+      'https://localhost:44342/api/product/selldetails/{billID}/paymentinfo/{paymentID}/status/{paymentStatus}';
     apiUrl = apiUrl.replace('{paymentID}', paymentID.toString());
     apiUrl = apiUrl.replace('{paymentStatus}', paymentStatus);
     apiUrl = apiUrl.replace('{billID}', billID.toString());
@@ -69,23 +74,23 @@ export class BillService {
 
   InsertMonthlyExpenseDetails(expenseDetails: MonthlyExpense): Observable<any> {
     const apiUrl =
-    'https://localhost:44342/api/product/expense/monthly';
+      'https://localhost:44342/api/product/expense/monthly';
     return this.http.post(apiUrl, expenseDetails);
   }
 
   FetchPaymentDetails(paymentId: number): Observable<any> {
     let apiUrl =
-    'https://localhost:44342/api/product/payment/details/{paymentid}';
+      'https://localhost:44342/api/product/payment/details/{paymentid}';
     apiUrl = apiUrl.replace('{paymentid}', paymentId.toString());
     return this.http.get<PaymentDetails>(apiUrl);
   }
 
   InsertPaymentDetails(paymentInfo: PaymentDetails): Observable<any> {
     const apiUrl =
-    'https://localhost:44342/api/product/payment/details';
+      'https://localhost:44342/api/product/payment/details';
     return this.http.post(apiUrl, paymentInfo);
   }
-  FetchLast3MonthsGraphData(organisationName: string): Observable<any>{
+  FetchLast3MonthsGraphData(organisationName: string): Observable<any> {
     let apiUrl = 'https://localhost:44342/api/product/purchaseorder/summary/last3months/{organisation}/totalgstpaid';
     apiUrl = apiUrl.replace('{organisation}', organisationName);
     return this.http.get<any>(apiUrl);

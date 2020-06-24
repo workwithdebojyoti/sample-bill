@@ -20,7 +20,6 @@ export class CommonService {
     return ['Done', 'Due'];
   }
   displayLoader(value: boolean): void {
-    console.log('LoaderService.display ' + value);
     this.loaderStatus.next(value);
   }
 }

@@ -1,133 +1,110 @@
 <div class="container-fluid">
   <div class="card-header"><strong><span>Bill Details</span> </strong></div>
-  <!-- <div class="row">
-    <div class="card-body">
-      <div class="col-md-3">
-        <span style="margin-right: 15px;">Biller</span>
-        <mat-form-field>
-          <mat-select [formControl]="billerControl">
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let biller of billers" [value]="biller">
-              {{biller}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+  <form [formGroup]="billDetailsForm">
+    <div class="card-body col-md-12">
+      <div class="w3-container row">
+        <div class="col-md-3">
+          <span class="w3-text-teal" style="margin-right: 15px;">Biller</span>
+          <mat-form-field>
+            <mat-select formControlName="billerName">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let biller of billers" [value]="biller">
+                {{biller}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal" style="margin-right: 15px;">Bill Type</span>
+          <mat-form-field>
+            <mat-select formControlName="billType">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let billType of billTypes" [value]="billType">
+                {{billType}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal">Bill Number : </span>
+          <input class="w3-input" id="txtBillNumber" formControlName="billNumber">
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal">Bill Date : </span>
+          <!-- <kendo-datepicker [(value)]="billData.billDate"></kendo-datepicker> -->
+          <app-custom-datepicker (selectedDate)="FetchSelectedBillDate($event)"></app-custom-datepicker>
+        </div>
       </div>
-      <div class="col-md-3">
-        <span style="margin-right: 15px;">Bill Type</span>
-        <mat-form-field>
-          <mat-select [formControl]="billTypeControl">
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let billType of billTypes" [value]="billType">
-              {{billType}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <br />
+      <div class="w3-container row">
+        <div class="col-md-3">
+          <span class="w3-text-teal">SGST : </span>
+          <input class="w3-input w3-border w3-light-grey" id="txtBillSGST" formControlName="billSGST" disabled>
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal">CGST : </span>
+          <input class="w3-input w3-border w3-light-grey" id="txtBillCGST" formControlName="billCGST" disabled>
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal">Total Tax : </span>
+          <input class="w3-input w3-border w3-light-grey" id="txtTotalTax" formControlName="billTotalTax" disabled>
+        </div>
+        <div class="col-md-3">
+          <span class="w3-text-teal">Total : </span>
+          <input class="w3-input w3-border w3-light-grey" id="txtBillTotal" formControlName="billTotal" disabled>
+        </div>
       </div>
+  
     </div>
-  </div> -->
-  <div class="card-body col-md-12">
-    <div class="w3-container row">
-      <div class="col-md-3">
-        <span class="w3-text-teal" style="margin-right: 15px;">Biller</span>
-        <mat-form-field>
-          <mat-select [formControl]="billerControl">
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let biller of billers" [value]="biller">
-              {{biller}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal" style="margin-right: 15px;">Bill Type</span>
-        <mat-form-field>
-          <mat-select [formControl]="billTypeControl">
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let billType of billTypes" [value]="billType">
-              {{billType}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal">Bill Number : </span>
-        <input class="w3-input" id="txtBillNumber" [(ngModel)]='billnumber'>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal">Bill Date : </span>
-        <!-- <kendo-datepicker [(value)]="billData.billDate"></kendo-datepicker> -->
-        <app-custom-datepicker (selectedDate)="FetchSelectedBillDate($event)"></app-custom-datepicker>
-      </div>
-    </div>
-    <br />
-    <div class="w3-container row">
-      <div class="col-md-3">
-        <span class="w3-text-teal">SGST : </span>
-        <input class="w3-input w3-border w3-light-grey" id="txtBillSGST" disabled>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal">CGST : </span>
-        <input class="w3-input w3-border w3-light-grey" id="txtBillCGST" disabled>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal">Total Tax : </span>
-        <input class="w3-input w3-border w3-light-grey" id="txtTotalTax" disabled>
-      </div>
-      <div class="col-md-3">
-        <span class="w3-text-teal">Total : </span>
-        <input class="w3-input w3-border w3-light-grey" id="txtBillTotal" [ngModel]='total' disabled>
-      </div>
-    </div>
-
-  </div>
+  </form>
 </div>
 
 <div>
   <div class="container-fluid">
     <div class="card-header"><strong><span>Party Details</span></strong></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-3">
-          <span class="w3-text-teal">Party Name : </span>
-          <input class="w3-input" id="txtPartyName" [(ngModel)]='partyDetails.partyName'>
-        </div>
-        <div class="col-md-3">
-          <span class="w3-text-teal">Mobile Number : </span>
-          <input class="w3-input" id="txtMobileNumber" [(ngModel)]='partyDetails.mobileNumber'> &nbsp;&nbsp;
-        </div>
-        <a class="col-md-2" (click)="checkPartyStatus()"><strong><u>Party Registered ?</u></strong></a>
-        <div *ngIf='!registeredParty' class="col-md-4">
-          <span><strong class="text-danger">Party Not Registered with us.</strong></span>
-          <app-dialog [party]='partyDetails' style="margin-left: 10px;"> </app-dialog>
+    <form [formGroup]="partyDetailsForm">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <span class="w3-text-teal">Party Name : </span>
+            <input class="w3-input" id="txtPartyName" formControlName="partyName">
+          </div>
+          <div class="col-md-3">
+            <span class="w3-text-teal">Mobile Number : </span>
+            <input class="w3-input" id="txtMobileNumber" formControlName="mobileNumber"> &nbsp;&nbsp;
+          </div>
+          <a class="col-md-2" (click)="checkPartyStatus()"><strong><u>Party Registered ?</u></strong></a>
+          <div *ngIf='!registeredParty' class="col-md-4">
+            <span><strong class="text-danger">Party Not Registered with us.</strong></span>
+            <app-dialog [party]='partyDetails' style="margin-left: 10px;"> </app-dialog>
+          </div>
         </div>
       </div>
-
-    </div>
-
-
+    </form>
   </div>
   <div class="container-fluid">
-    <div class="card-header"><span>Delivery Details</span></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-3">
-          <span class="w3-text-teal" style="margin-right: 15px;">Delivered By</span>
+    <form [formGroup]="deliveryDetailsForm">
+      <div class="card-header"><span>Delivery Details</span></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <span class="w3-text-teal" style="margin-right: 15px;">Delivered By</span>
             <mat-form-field>
-              <mat-select [formControl]="deliveryControl">
+              <mat-select formControlName="deliveredBy">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let deliveryOption of deliveryOptions" [value]="deliveryOptions">
                   {{deliveryOption}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-        </div>
-        <div class="col-md-6">
-          <span class="w3-text-teal">Delivery Address</span>
-          <textarea class="w3-input" rows="1" cols="70"></textarea>
+          </div>
+          <div class="col-md-6">
+            <span class="w3-text-teal">Delivery Address</span>
+            <textarea class="w3-input" rows="1" cols="70" formControlName="deliveryAddress"></textarea>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
@@ -211,16 +188,16 @@
           <td>
             <!-- <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button> -->
             <div style="justify-content: center;">
-                <i class="fa fa-plus" style="cursor: pointer" aria-hidden="true" (click)="addFieldValue()"></i>
+              <i class="fa fa-plus" style="cursor: pointer" aria-hidden="true" (click)="addFieldValue()"></i>
             </div>
-            
+
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  
+
 </div>
 
 <div class="container-fluid">
