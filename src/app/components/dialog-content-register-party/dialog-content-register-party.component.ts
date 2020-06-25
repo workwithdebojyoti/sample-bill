@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { PartyDetails } from 'src/app/models/bill-common-model';
 import { BillService } from 'src/app/services/bill.service';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-dialog-content-register-party',
   templateUrl: './dialog-content-register-party.component.html',
@@ -10,19 +12,54 @@ import { BillService } from 'src/app/services/bill.service';
 export class DialogContentRegisterPartyComponent implements OnInit {
   public firstName: string ;
   public lastName: string;
-  constructor(@Inject(MAT_DIALOG_DATA) public party: PartyDetails, private billService: BillService) { }
+  public registerPartyForm: FormGroup;
+  constructor(@Inject(MAT_DIALOG_DATA) public party: PartyDetails, private billService: BillService, private commonService: CommonService) { 
+    this.initializeRegisterPartyForm();
+  }
 
   ngOnInit() {
   }
   registerParty(): void {
-    console.log('Register Party Called.', this.party);
-    this.party.partyName = this.firstName + ' ' + this.lastName;
+    this.fetchFormValue();
+    this.commonService.displayLoader(true);
+    // this.party.partyName = this.firstName + ' ' + this.lastName;
     this.billService.savePartyDetails(this.party).subscribe(response => {
       if (response) {
+        this.commonService.displayLoader(false);
         console.log('Party saved successfully');
       }
     }, (err) => {
+      this.commonService.displayLoader(false);
       console.log(err);
     });
+  }
+
+  initializeRegisterPartyForm(): void {
+    this.registerPartyForm = new FormGroup({
+      fName: new FormControl('', [Validators.required]),
+      lName: new FormControl('', [Validators.required]),
+      gstNumber: new FormControl('', [Validators.required]),
+      panNumber: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      stateInformation: new FormControl('', [Validators.required]),
+      zipcode: new FormControl('', [Validators.required]),
+      mobileNumber: new FormControl('', [Validators.required])
+    });
+  }
+
+  fetchFormValue(): void {
+    this.party.partyName = 
+    this.registerPartyForm.controls['fName'].value + ' ' + this.registerPartyForm.controls['lName'].value;
+    this.party.panNumber = this.registerPartyForm.controls['panNumber'].value;
+    this.party.gstNumber = this.registerPartyForm.controls['gstNumber'].value;
+    this.party.addressLine = this.registerPartyForm.controls['address'].value;
+    this.party.city = this.registerPartyForm.controls['city'].value;
+    this.party.stateInformation = this.registerPartyForm.controls['stateInformation'].value;
+    this.party.zipCode = this.registerPartyForm.controls['zipcode'].value;
+    this.party.addressLine = this.registerPartyForm.controls['address'].value;
+    this.party.createdAt = new Date();
+    this.party.updatedAt = new Date();
+    this.party.Id = 0;
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   PartyDetails, Bill, MonthModel, MonthlyExpense,
-  PaymentDetails, MonthlySummary, EmployeeDetails, Organisation
+  PaymentDetails, MonthlySummary, EmployeeDetails, Organisation, DeliveryDetails
 } from '../models/bill-common-model';
 import { HttpParams } from "@angular/common/http";
 
@@ -22,7 +22,7 @@ export class BillService {
     return this.billData;
   }
   fetchPartyDetails(mobileNumber: string): Observable<PartyDetails> {
-    let apiUrl = 'https://localhost:44305/api/Party/mobileNumber';
+    let apiUrl = 'http://debojyoti1112-001-site1.htempurl.com/api/Party/mobileNumber';
     const params = new HttpParams().set('mobileNumber', mobileNumber.toString());
 
     return this.http.get<PartyDetails>(apiUrl, {params});
@@ -33,7 +33,7 @@ export class BillService {
   }
 
   savePartyDetails(party: PartyDetails): Observable<any> {
-    const apiUrl = 'https://localhost:44342/api/product/party';
+    const apiUrl = 'https://debojyoti1112-001-site1.htempurl.com/api/Party';
     return this.http.post(apiUrl, party);
   }
 
@@ -87,7 +87,7 @@ export class BillService {
 
   InsertPaymentDetails(paymentInfo: PaymentDetails): Observable<any> {
     const apiUrl =
-      'https://localhost:44342/api/product/payment/details';
+      'http://debojyoti1112-001-site1.htempurl.com/api/PaymentDetails';
     return this.http.post(apiUrl, paymentInfo);
   }
   FetchLast3MonthsGraphData(organisationName: string): Observable<any> {
@@ -112,5 +112,10 @@ export class BillService {
   saveEmployeeDetails(employee: JSON): Observable<boolean> {
     const apiUrl = 'https://localhost:44342/api/product/employee/details';
     return this.http.post<boolean>(apiUrl, employee);
+  }
+
+  saveDeliveryDetails(deliveryDetails: DeliveryDetails): Observable<number> {
+    const apiUrl = 'http://debojyoti1112-001-site1.htempurl.com/api/Delivery';
+    return this.http.post<number>(apiUrl, deliveryDetails);
   }
 }

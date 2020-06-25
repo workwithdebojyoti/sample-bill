@@ -1,15 +1,29 @@
 import { BillPreviewComponent } from '../components/bill-preview/bill-preview.component';
-
+export class BaseEntity {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    /**
+     *
+     */
+    constructor() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.id = 0;
+    }
+}
 export class PartyDetails {
-    public partyID: number;
+    public Id: number;
     public partyName: string;
     public gstNumber: string;
     public panNumber: string;
-    public address: string;
+    public addressLine: string;
     public city: string;
-    public state: string;
+    public stateInformation: string;
     public zipCode: string;
     public mobileNumber: number;
+    public createdAt: Date;
+    public updatedAt: Date;
 }
 
 export class Item {
@@ -58,19 +72,29 @@ export class PurchaseOrder {
 }
 
 export class Bill {
-    billID: number;
+    id: number;
     billerName: string;
     billType: number;
-    billTotal: number;
+    billTotalAmount: number;
     billTotalTax: number;
-    sgst: number;
-    cgst: number;
+    billTotalSgst: number;
+    billTotalCgst: number;
     billDate: Date;
-    partyID: number;
-    billPaymentStatus: boolean;
+    refPartyId: number;
+    refPaymentId: number;
+    refDeliveryId: number;
+    // billPaymentStatus: boolean;
     billNumber: string;
-    itemList: Array<Item>;
-    partyDetails: PartyDetails;
+    createdAt: Date;
+    updatedAt: Date;
+    /**
+     *
+     */
+    constructor() {
+        this.updatedAt = new Date();
+    }
+    // itemList: Array<Item>;
+    // partyDetails: PartyDetails;
 }
 
 export class MonthModel {
@@ -118,12 +142,20 @@ export class MonthlyExpense {
     monthNumber: number;
 }
 
-export class PaymentDetails {
-    paymentID: number;
+export class PaymentDetails extends BaseEntity{
     paymentAmount: number;
     paymentMode: string;
     paymentReferenceNumber;
     paymentDate: Date;
+    paymentType: number;
+    paymentStatus: number;
+    paymentReceived: number;
+    /**
+     *
+     */
+    constructor() {
+        super();
+    }
 }
 
 export class PaymentInfo {
@@ -174,5 +206,31 @@ export enum FileType {
 }
 
 export enum PaymentMode {
-    
+    Cash = 'cash', // 1
+    Online = 'online', // 2
+    Cheque = 'cheque' // 3
 }
+
+export class DeliveryDetails {
+    id: number;
+    deliveryAddress: string;
+    deliveryMode: string;
+    deliveryCharge: number;
+    deliveryDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    /**
+     *
+     */
+    constructor() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+}
+
+export enum PaymentType {
+    Purchase = 'purchase',
+    Sell = 'sell'
+}
+
+

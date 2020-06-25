@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BillService } from '../../services/bill.service';
-import { Item, PartyDetails, Bill } from 'src/app/models/bill-common-model';
+import { Item, PartyDetails, Bill, DeliveryDetails, PaymentDetails, PaymentType } from 'src/app/models/bill-common-model';
 import { Router } from '@angular/router';
-import { FormControl, Validators, FormsModule, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-bill-home',
@@ -26,6 +27,8 @@ export class BillHomeComponent implements OnInit {
   public total: number;
   public billData: Bill;
   public billnumber: string;
+  public deliveryDetails: DeliveryDetails;
+  public paymentDetails: PaymentDetails;
   billerControl = new FormControl('', [Validators.required]);
   billTypeControl = new FormControl('', [Validators.required]);
   deliveryControl = new FormControl('', [Validators.required]);
@@ -73,6 +76,7 @@ export class BillHomeComponent implements OnInit {
       if ( response ) {
         this.registeredParty = true;
         this.partyDetails = response;
+        this.partyDetailsForm.controls['partyName'].setValue(this.partyDetails.partyName);  
       } else {
         this.registeredParty = false;
       }
@@ -106,7 +110,6 @@ calculateTotal(newAttribute: Item): void {
   this.totalSGST += +newAttribute.itemTotalTax / 2;
   this.totalCGST += +newAttribute.itemTotalTax / 2;
   this.totalTax += +newAttribute.itemTotalTax;
-  debugger;
   this.setBillDetailsFormValue(this.total, this.totalTax, this.totalSGST, this.totalCGST);
 }
 
@@ -115,25 +118,36 @@ generateBill(): void {
     alert('either party not registered or the bill amount is zero');
     return;
   }
-  this.billData.itemList = this.fieldArray;
-  this.billData.billTotal = this.total;
-  this.billData.cgst = this.totalCGST;
-  this.billData.sgst = this.totalCGST;
+  this.commonService.displayLoader(true);
+  this.generatePaymentDetailsRequest();
+  this.generateDeliveryDetailsRequest();
+  // this.billData.itemList = this.fieldArray;
+  this.billData.billTotalAmount = this.total;
+  this.billData.billTotalSgst = this.totalSGST;
+  this.billData.billTotalCgst = this.totalCGST;
   this.billData.billTotalTax = this.totalTax;
   this.billData.billNumber = this.billnumber;
-  this.billData.partyDetails = this.partyDetails;
   this.billData.billerName = this.billerControl.value;
   // this.billData.billDate = ;
   this.billData.billType = this.billTypeControl.value === 'GST Bill' ? 1 : 0;
-  this.billData.billPaymentStatus = false;
-  this.billData.partyID = this.partyDetails.partyID;
+  // this.billData.billPaymentStatus = false;
+  this.billData.refPartyId = this.partyDetails.Id;
+  // this.billData.refDeliveryId = 0;
+  this.insertDeliveryAndPaymentDetailsForBill();
+}
+
+saveBill(): void {
+  this.commonService.displayLoader(true);
   this.billService.saveBillData(this.billData).subscribe( response => {
     if (response) {
       this.billService.setBillData(this.billData);
+      this.commonService.displayLoader(false);
       this.router.navigate(['/bill-preview']);
+      
     }
   }, (err) => {
     console.log(err);
+    this.commonService.displayLoader(false);
   });
 }
 FetchSelectedBillDate($event: any): void {
@@ -166,9 +180,10 @@ initializePartyDetailsForm(): void {
 initializeDeliveryDetailsForm(): void {
   this.deliveryDetailsForm = new FormGroup({
      deliveredBy:  new FormControl('', [Validators.required]),
-     deliveryAddress:  new FormControl('', [Validators.required])
+     deliveryAddress:  new FormControl('', [Validators.required]),
+     fare: new FormControl('', [Validators.required])
   });
-  this.setDeliveryDetailsFormValue('Van', ' ');
+  this.setDeliveryDetailsFormValue('Van', ' ', 0);
 }
 /**
  * 
@@ -187,13 +202,45 @@ setBillDetailsFormValue(billTotal: number, totalTax: number, sgst: number, cgst:
  * sets the default values in the form
  * @param deliveredBy 
  * @param deliveryAddress 
+ * @param fare 
  */
-setDeliveryDetailsFormValue(deliveredBy: string, deliveryAddress: string): void {
+setDeliveryDetailsFormValue(deliveredBy: string, deliveryAddress: string, fare: number): void {
   this.deliveryDetailsForm.controls['deliveredBy'].setValue(deliveredBy);
   this.deliveryDetailsForm.controls['deliveryAddress'].setValue(deliveryAddress);
+  this.deliveryDetailsForm.controls['fare'].setValue(fare);
 }
 
-setPartyDetailsFromValue(): void {
 
+generateDeliveryDetailsRequest() : void {
+  this.deliveryDetails = new DeliveryDetails();
+  this.deliveryDetails.id = 0 ;
+  this.deliveryDetails.deliveryCharge = this.deliveryDetailsForm.controls['fare'].value;
+  this.deliveryDetails.deliveryAddress = this.deliveryDetailsForm.controls['deliveryAddress'].value;
+  this.deliveryDetails.deliveryMode = this.deliveryDetailsForm.controls['deliveredBy'].value;
+  this.deliveryDetails.deliveryDate = new Date();
 }
+
+  generatePaymentDetailsRequest(): void {
+    this.paymentDetails = new PaymentDetails();
+    this.paymentDetails.paymentMode = PaymentType.Sell;
+    this.paymentDetails.paymentType = null;
+    this.paymentDetails.paymentStatus = null;
+    this.paymentDetails.paymentDate = null;
+    this.paymentDetails.paymentAmount = 0;
+    this.paymentDetails.paymentReferenceNumber = null;
+    this.paymentDetails.paymentReceived = 0;
+    
+    
+  }
+
+  insertDeliveryAndPaymentDetailsForBill(): void {
+    let paymentHttp = this.billService.InsertPaymentDetails(this.paymentDetails);
+    let deliveryHttp = this.billService.saveDeliveryDetails(this.deliveryDetails);
+    forkJoin([paymentHttp, deliveryHttp]).subscribe( result => {
+      this.billData.refPaymentId = result[0];
+      this.billData.refDeliveryId = result[1];  
+      this.saveBill();    
+    });
+  }
+
 }
