@@ -92,7 +92,7 @@
             <mat-form-field>
               <mat-select formControlName="deliveredBy">
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let deliveryOption of deliveryOptions" [value]="deliveryOptions">
+                <mat-option *ngFor="let deliveryOption of deliveryOptions" [value]="deliveryOption">
                   {{deliveryOption}}
                 </mat-option>
               </mat-select>

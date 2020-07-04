@@ -142,7 +142,7 @@ saveBill(): void {
     if (response) {
       this.billService.setBillData(this.billData);
       this.commonService.displayLoader(false);
-      this.router.navigate(['/bill-preview']);
+      // this.router.navigate(['/bill-preview']);
       
     }
   }, (err) => {
@@ -214,7 +214,7 @@ setDeliveryDetailsFormValue(deliveredBy: string, deliveryAddress: string, fare: 
 generateDeliveryDetailsRequest() : void {
   this.deliveryDetails = new DeliveryDetails();
   this.deliveryDetails.id = 0 ;
-  this.deliveryDetails.deliveryCharge = this.deliveryDetailsForm.controls['fare'].value;
+  this.deliveryDetails.deliveryCharge = +this.deliveryDetailsForm.controls['fare'].value;
   this.deliveryDetails.deliveryAddress = this.deliveryDetailsForm.controls['deliveryAddress'].value;
   this.deliveryDetails.deliveryMode = this.deliveryDetailsForm.controls['deliveredBy'].value;
   this.deliveryDetails.deliveryDate = new Date();
@@ -229,8 +229,6 @@ generateDeliveryDetailsRequest() : void {
     this.paymentDetails.paymentAmount = 0;
     this.paymentDetails.paymentReferenceNumber = null;
     this.paymentDetails.paymentReceived = 0;
-    
-    
   }
 
   insertDeliveryAndPaymentDetailsForBill(): void {
@@ -240,7 +238,7 @@ generateDeliveryDetailsRequest() : void {
       this.billData.refPaymentId = result[0];
       this.billData.refDeliveryId = result[1];  
       this.saveBill();    
-    });
+    }, (err) => {this.commonService.displayLoader(false);});
   }
 
 }

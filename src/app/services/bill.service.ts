@@ -28,7 +28,7 @@ export class BillService {
     return this.http.get<PartyDetails>(apiUrl, {params});
   }
   saveBillData(billData: Bill): Observable<any> {
-    const apiUrl = 'https://localhost:44342/api/product/submitbill';
+    const apiUrl = 'https://localhost:44305/api/Bill';
     return this.http.post(apiUrl, billData);
   }
 
@@ -86,8 +86,10 @@ export class BillService {
   }
 
   InsertPaymentDetails(paymentInfo: PaymentDetails): Observable<any> {
+    // const apiUrl =
+    //   'http://debojyoti1112-001-site1.htempurl.com/api/PaymentDetails';
     const apiUrl =
-      'http://debojyoti1112-001-site1.htempurl.com/api/PaymentDetails';
+      'https://localhost:44305/api/PaymentDetails';
     return this.http.post(apiUrl, paymentInfo);
   }
   FetchLast3MonthsGraphData(organisationName: string): Observable<any> {
@@ -115,7 +117,7 @@ export class BillService {
   }
 
   saveDeliveryDetails(deliveryDetails: DeliveryDetails): Observable<number> {
-    const apiUrl = 'http://debojyoti1112-001-site1.htempurl.com/api/Delivery';
+    const apiUrl = 'https://localhost:44305/api/Delivery';
     return this.http.post<number>(apiUrl, deliveryDetails);
   }
 }

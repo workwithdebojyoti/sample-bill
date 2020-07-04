@@ -62,9 +62,9 @@ export class SellDetailsComponent implements OnInit {
   openDialog(cell: number): void {
     this.selectedSellItem = this.monthlySellList[cell];
     this.paymentInfo = new PaymentInfo();
-    this.paymentInfo.billID = this.selectedSellItem.billID;
+    this.paymentInfo.billID = this.selectedSellItem.id;
     this.paymentInfo.paymentID = this.selectedSellItem.paymentID;
-    this.paymentInfo.transactionTotal = this.selectedSellItem.billTotal;
+    this.paymentInfo.transactionTotal = this.selectedSellItem.billTotalAmount;
     this.paymentInfo.transactionType = TransactionType.Sell;
     const dialogRef = this.dialog.open(ModalDialogComponent, {
       width: '450px',

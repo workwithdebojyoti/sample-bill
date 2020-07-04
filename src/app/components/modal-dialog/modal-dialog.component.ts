@@ -41,7 +41,7 @@ export class ModalDialogComponent implements OnInit {
     }
     this.GetFormValues();
     this.billService.InsertPaymentDetails(this.paymentDetails).subscribe( response => {
-      this.paymentDetails.paymentID = response;
+      this.paymentDetails.id = response;
       this.UpdateTransactionPaymentStatus();
     }, (Err) => { console.log('error occured while inserting payment details', Err); });
   }
@@ -73,7 +73,7 @@ export class ModalDialogComponent implements OnInit {
     }
     if (this.data.transactionType === TransactionType.Sell) {
       this.billService.UpdatePaymentDetails(
-        this.data.billID, this.paymentDetails.paymentID, paymentStatus
+        this.data.billID, this.paymentDetails.id, paymentStatus
         ).subscribe(
           (response: boolean) => {
             this.paymentDetailsAdded = response;
@@ -84,7 +84,7 @@ export class ModalDialogComponent implements OnInit {
       }
     if (this.data.transactionType === TransactionType.Purchase) {
         this.purchaseOrderService.UpdatePaymentDetails(
-          this.data.billID, this.paymentDetails.paymentID, paymentStatus
+          this.data.billID, this.paymentDetails.id, paymentStatus
           ).subscribe(
             (response: boolean) => {
               this.paymentDetailsAdded = response;
