@@ -104,7 +104,7 @@
           </div>
           <div class="col-md-3">
             <span class="w3-text-teal">Fare</span>
-            <input class="w3-input" formControlName="fare"/>
+            <input class="w3-input" formControlName="fare" (change)='calculateDeliveryCharge()'/>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@
           </td>
           <td>
             <!-- <button class="btn btn-default" type="button" (click)="deleteFieldValue(i)">Delete</button> -->
-            <i class="fa fa-trash" (click)="deleteFieldValue(i)" style="cursor: pointer" aria-hidden="true"></i>
+            <i class="fa fa-trash mt-2" (click)="deleteFieldValue(i)" style="cursor: pointer" aria-hidden="true"></i>
           </td>
         </tr>
         <tr>
@@ -192,7 +192,7 @@
           <td>
             <!-- <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button> -->
             <div style="justify-content: center;">
-              <i class="fa fa-plus" style="cursor: pointer" aria-hidden="true" (click)="addFieldValue()"></i>
+              <i class="fa fa-plus mt-2" style="cursor: pointer" aria-hidden="true" (click)="addFieldValue()"></i>
             </div>
 
           </td>
@@ -206,6 +206,9 @@
 
 <div class="container-fluid">
   <div class="row">
-    <button class="w3-button w3-green" style="float: right" (click)="generateBill()">Bill</button>
+    <div class="col">
+      <button class="w3-button w3-green" style="min-width: 120px;" (click)="generateBill()">Bill</button>
+      <button class="w3-button w3-grey" style="min-width: 120px;" (click)="reset()">Reset</button>
+    </div>
   </div>
 </div>

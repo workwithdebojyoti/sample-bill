@@ -13,7 +13,7 @@ export class BaseEntity {
     }
 }
 export class PartyDetails {
-    public Id: number;
+    public id: number;
     public partyName: string;
     public gstNumber: string;
     public panNumber: string;

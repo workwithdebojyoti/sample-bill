@@ -60,6 +60,6 @@ export class DialogContentRegisterPartyComponent implements OnInit {
     this.party.addressLine = this.registerPartyForm.controls['address'].value;
     this.party.createdAt = new Date();
     this.party.updatedAt = new Date();
-    this.party.Id = 0;
+    this.party.id = 0;
   }
 }
