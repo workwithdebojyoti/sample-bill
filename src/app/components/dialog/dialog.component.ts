@@ -26,6 +26,9 @@ export class DialogComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if ( result === 'party registered') {
+        alert('party registered successfully');
+      }
     });
   }
 }

@@ -66,10 +66,10 @@ export class BillHomeComponent implements OnInit {
   checkPartyStatus(): void {
     this.commonService.displayLoader(true);
     this.partyDetails.mobileNumber = this.partyDetailsForm.controls['mobileNumber'].value;
-    console.log('check party called', this.partyDetails.mobileNumber);
     // this.partyDetails.partyName
     if (!this.partyDetails.mobileNumber) {
       alert('please enter a valid mobile number!');
+      this.commonService.displayLoader(false);
       return;
     }
     this.billService.fetchPartyDetails(this.partyDetails.mobileNumber.toString()).subscribe(response => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PartyDetails } from 'src/app/models/bill-common-model';
 import { BillService } from 'src/app/services/bill.service';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -10,10 +10,12 @@ import { CommonService } from 'src/app/services/common.service';
   styleUrls: ['./dialog-content-register-party.component.css']
 })
 export class DialogContentRegisterPartyComponent implements OnInit {
-  public firstName: string ;
+  public firstName: string;
   public lastName: string;
   public registerPartyForm: FormGroup;
-  constructor(@Inject(MAT_DIALOG_DATA) public party: PartyDetails, private billService: BillService, private commonService: CommonService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public party: PartyDetails,
+  private billService: BillService, private commonService: CommonService,
+  public dialogRef: MatDialogRef<DialogContentRegisterPartyComponent>) {
     this.initializeRegisterPartyForm();
   }
 
@@ -22,15 +24,14 @@ export class DialogContentRegisterPartyComponent implements OnInit {
   registerParty(): void {
     this.fetchFormValue();
     this.commonService.displayLoader(true);
-    // this.party.partyName = this.firstName + ' ' + this.lastName;
     this.billService.savePartyDetails(this.party).subscribe(response => {
-      if (response) {
-        this.commonService.displayLoader(false);
-        console.log('Party saved successfully');
-      }
+      this.commonService.displayLoader(false);
+      this.registerPartyForm.reset();
+      this.closeDialog();
     }, (err) => {
       this.commonService.displayLoader(false);
       console.log(err);
+      alert('data can not be saved');
     });
   }
 
@@ -49,8 +50,8 @@ export class DialogContentRegisterPartyComponent implements OnInit {
   }
 
   fetchFormValue(): void {
-    this.party.partyName = 
-    this.registerPartyForm.controls['fName'].value + ' ' + this.registerPartyForm.controls['lName'].value;
+    this.party.partyName =
+      this.registerPartyForm.controls['fName'].value + ' ' + this.registerPartyForm.controls['lName'].value;
     this.party.panNumber = this.registerPartyForm.controls['panNumber'].value;
     this.party.gstNumber = this.registerPartyForm.controls['gstNumber'].value;
     this.party.addressLine = this.registerPartyForm.controls['address'].value;
@@ -61,5 +62,9 @@ export class DialogContentRegisterPartyComponent implements OnInit {
     this.party.createdAt = new Date();
     this.party.updatedAt = new Date();
     this.party.id = 0;
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close('party registered');
   }
 }
