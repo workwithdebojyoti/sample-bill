@@ -109,15 +109,7 @@ export class MonthModel {
     }
 }
 
-export class BillDetails extends Bill {
-    paymentID: number;
-    fullPaymentRecieved: boolean;
-    party: PartyDetails;
-    constructor() {
-        super();
-        this.party = new PartyDetails();
-    }
-}
+
 
 export class LabourExpense {
     labourName: string;
@@ -189,6 +181,18 @@ export class EmployeeDetails {
     name: string;
     organisation: string;
     mobileNumber: string;
+}
+
+export class BillDetails extends Bill {
+    paymentDetails: PaymentDetails;
+    partyDetails: PartyDetails;
+    deliveryDetails: DeliveryDetails;
+    constructor() {
+        super();
+        this.partyDetails = new PartyDetails();
+        this.deliveryDetails = new DeliveryDetails();
+        this.paymentDetails = new PaymentDetails();
+    }
 }
 
 export enum Tabs {

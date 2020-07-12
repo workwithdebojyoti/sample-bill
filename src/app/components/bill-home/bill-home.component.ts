@@ -140,7 +140,6 @@ export class BillHomeComponent implements OnInit {
   }
 
   saveBill(): void {
-    debugger;
     this.commonService.displayLoader(true);
     this.billService.saveBillData(this.billData).subscribe(response => {
       if (response) {

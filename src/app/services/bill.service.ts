@@ -33,13 +33,27 @@ export class BillService {
     return this.http.post(apiUrl, party);
   }
   saveBillData(billData: Bill): Observable<any> {
-    const apiUrl = 'https://localhost:44305/api/Bill';
+    const apiUrl = this.apiURL + ServiceURL.bill_post;
     return this.http.post(apiUrl, billData);
   }
+
+  saveDeliveryDetails(deliveryDetails: DeliveryDetails): Observable<number> {
+    const apiUrl = this.apiURL + ServiceURL.delivery_details_post;
+    return this.http.post<number>(apiUrl, deliveryDetails);
+  }
+  
+  
   fetchMonthlySellSummary(month: number, year: number, billerName: string): Observable<any> {
-    let apiUrl = 'https://localhost:44342/api/product/purchaseorder/monthly/summary/{month}/year/{year}/{billerName}';
+    let apiUrl = this.apiURL + ServiceURL.bill_summary_monthly_get;
     apiUrl = apiUrl.replace('{month}', month.toString());
-    apiUrl = apiUrl.replace('{billerName}', billerName);
+    apiUrl = apiUrl.replace('{organisation}', billerName);
+    apiUrl = apiUrl.replace('{year}', year.toString());
+    return this.http.get<Bill>(apiUrl);
+  }
+
+  fetchAnnualSellSummary(year: number, billerName: string): Observable<any> {
+    let apiUrl = this.apiURL + ServiceURL.bill_summary_monthly_get;
+    apiUrl = apiUrl.replace('{organisation}', billerName);
     apiUrl = apiUrl.replace('{year}', year.toString());
     return this.http.get<Bill>(apiUrl);
   }
@@ -113,8 +127,5 @@ export class BillService {
     return this.http.post<boolean>(apiUrl, employee);
   }
 
-  saveDeliveryDetails(deliveryDetails: DeliveryDetails): Observable<number> {
-    const apiUrl = 'https://localhost:44305/api/Delivery';
-    return this.http.post<number>(apiUrl, deliveryDetails);
-  }
+  
 }

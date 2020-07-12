@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { BillDetails, MonthModel, PaymentInfo, TransactionType, MonthlySummary, Organisation } from 'src/app/models/bill-common-model';
+import { BillDetails, MonthModel, PaymentInfo, TransactionType, MonthlySummary, Organisation, PaymentDetails } from 'src/app/models/bill-common-model';
 import { BillService } from 'src/app/services/bill.service';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -21,7 +21,7 @@ export class SellDetailsComponent implements OnInit {
   monthControl = new FormControl('', [Validators.required]);
   yearControl = new FormControl('', [Validators.required]);
   selectedSellItem: BillDetails;
-  paymentInfo: PaymentInfo;
+  paymentInfo: PaymentDetails;
   sellSummary: MonthlySummary = new MonthlySummary();
   constructor(private billService: BillService, public dialog: MatDialog, private commonService: CommonService) { }
 
@@ -61,11 +61,8 @@ export class SellDetailsComponent implements OnInit {
 
   openDialog(cell: number): void {
     this.selectedSellItem = this.monthlySellList[cell];
-    this.paymentInfo = new PaymentInfo();
-    this.paymentInfo.billID = this.selectedSellItem.id;
-    this.paymentInfo.paymentID = this.selectedSellItem.paymentID;
-    this.paymentInfo.transactionTotal = this.selectedSellItem.billTotalAmount;
-    this.paymentInfo.transactionType = TransactionType.Sell;
+    this.paymentInfo = this.selectedSellItem.paymentDetails;
+    
     const dialogRef = this.dialog.open(ModalDialogComponent, {
       width: '450px',
       data: this.paymentInfo
