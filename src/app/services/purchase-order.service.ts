@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PurchaseOrder } from '../models/bill-common-model';
+import { PurchaseOrder, PaymentDetails } from '../models/bill-common-model';
 import { Observable } from 'rxjs';
+import { ServiceURL } from '../models/service-api-url';
 @Injectable({
   providedIn: 'root'
 })
 export class PurchaseOrderService {
-
+  private baseApiURL: string = 'https://localhost:44305/api/';
   constructor(private http: HttpClient) { }
 
   saveOrderDetails(purchaseOrder: PurchaseOrder): Observable<any> {
@@ -41,12 +42,5 @@ export class PurchaseOrderService {
     return this.http.get(apiUrl);
   }
 
-  UpdatePaymentDetails(orderID: number, paymentID: number, paymentStatus: string): Observable<any> {
-    let apiUrl =
-    'https://localhost:44342/api/product/purchaseorder/{orderID}/paymentinfo/{paymentID}/status/{paymentStatus}';
-    apiUrl = apiUrl.replace('{paymentID}', paymentID.toString());
-    apiUrl = apiUrl.replace('{paymentStatus}', paymentStatus);
-    apiUrl = apiUrl.replace('{orderID}', orderID.toString());
-    return this.http.post(apiUrl, {});
-  }
+  
 }

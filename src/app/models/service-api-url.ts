@@ -6,4 +6,5 @@ export const ServiceURL = {
     bill_post: 'Bill',
     bill_summary_monthly_get: 'Bill/organisation/{organisation}/month/{month}/year/{year}',
     bill_summary_annual_get: 'Bill/organisation/{organisation}/financialyear/{year}',
+    payment_details_put: 'PaymentDetails',
 }

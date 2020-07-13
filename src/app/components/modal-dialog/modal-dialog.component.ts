@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
-import { TransactionType, PaymentDetails, PaymentInfo } from 'src/app/models/bill-common-model';
+import { PaymentDetails } from 'src/app/models/bill-common-model';
 import { BillService } from 'src/app/services/bill.service';
-import { PurchaseOrderService } from 'src/app/services/purchase-order.service';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-modal-dialog',
   templateUrl: './modal-dialog.component.html',
@@ -20,7 +20,7 @@ export class ModalDialogComponent implements OnInit {
   paymentRecievedControl = new FormControl('', [Validators.required]);
   constructor(public dialogRef: MatDialogRef<ModalDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: PaymentDetails, private billService: BillService,
-              private purchaseOrderService: PurchaseOrderService) {
+              private commonService: CommonService) {
       // this.billAmountControl.setValue(data.billTotal);
       this.paymentRefNumberControl.setValue('N/A');
       debugger;
@@ -28,10 +28,10 @@ export class ModalDialogComponent implements OnInit {
     }
 
   ngOnInit() {
-    if (this.data.id > 0 ) {
-      this.FetchPaymentDetails(this.data.id);
-    }
-    this.paymentRecievedControl.setValue(0);
+    // if (this.data.id > 0 ) {
+    //   this.FetchPaymentDetails(this.data.id);
+    // }
+    this.SetInitialValues();
   }
   onNoClick(): void {
     this.dialogRef.close();
@@ -47,53 +47,70 @@ export class ModalDialogComponent implements OnInit {
       this.UpdateTransactionPaymentStatus();
     }, (Err) => { console.log('error occured while inserting payment details', Err); });
   }
-
-  FetchPaymentDetails(paymentId: number): void {
-    this.billService.FetchPaymentDetails(paymentId).subscribe( response => {
-      if (response) {
-        this.paymentDetails = response;
-        this.SetInitialValues();
-      }
-    }, (err) => { console.log('error occured while fetching payment details', err); });
-  }
-
   SetInitialValues(): void {
-    this.paymentTypeControl.setValue(this.paymentDetails.paymentMode);
-    this.paymentRefNumberControl.setValue(this.paymentDetails.paymentReferenceNumber);
-    this.paymentRecievedControl.setValue(this.paymentDetails.paymentAmount);
-    this.paymentDetails.paymentAmount
+    this.paymentTypeControl.setValue(this.paymentModes[this.data.paymentMode - 1]);
+    this.paymentRefNumberControl.setValue(this.data.paymentReferenceNumber);
+    this.paymentRecievedControl.setValue(this.data.paymentAmount);
   }
   GetFormValues(): void {
     this.paymentDetails.paymentAmount = this.paymentRecievedControl.value;
-    this.paymentDetails.paymentMode = this.paymentTypeControl.value + 1;
+    switch(this.paymentTypeControl.value) {
+      case 'Cash': this.paymentDetails.paymentMode = 1;
+                  break;
+      case 'Online': this.paymentDetails.paymentMode = 2;
+                  break;
+      case 'Cheque': this.paymentDetails.paymentMode = 3;
+                  break;
+    }
     this.paymentDetails.paymentReferenceNumber = this.paymentRefNumberControl.value;
   }
   UpdateTransactionPaymentStatus(): void {
-    let paymentStatus = 'Due';
+    debugger;
+    this.GetFormValues();
+    let paymentStatus = 'due';
     if (+this.paymentRecievedControl.value === this.data.paymentAmount) {
-      paymentStatus = 'Done';
+      paymentStatus = 'done';
     }
-    if (this.data.paymentType === TransactionType.Sell) {
-      this.billService.UpdatePaymentDetails(
-        this.data.id, this.paymentDetails.id, paymentStatus
-        ).subscribe(
-          (response: boolean) => {
-            this.paymentDetailsAdded = response;
-          }, (err) => {
-            console.log('error occured in adding payment details', err);
-          }
-        );
+    // if (this.data.paymentType === TransactionType.Sell) {
+    //   this.billService.UpdatePaymentDetails(
+    //     this.data.id, this.paymentDetails.id, paymentStatus
+    //     ).subscribe(
+    //       (response: boolean) => {
+    //         this.paymentDetailsAdded = response;
+    //       }, (err) => {
+    //         console.log('error occured in adding payment details', err);
+    //       }
+    //     );
+    //   }
+    // if (this.data.paymentType === TransactionType.Purchase) {
+    // this.purchaseOrderService.UpdatePaymentDetails(
+    //       this.data.id, this.paymentDetails.id, paymentStatus
+    //       ).subscribe(
+    //         (response: boolean) => {
+    //           this.paymentDetailsAdded = response;
+    //         }, (err) => {
+    //           console.log('error occured in adding payment details', err);
+    //         }
+    //       );
+    //     }
+    switch(paymentStatus) {
+      case 'due': this.paymentDetails.paymentStatus = 1;
+                  break;
+      case 'done': this.paymentDetails.paymentStatus = 2;
+                  break;
+      default: this.paymentDetails.paymentStatus = 0;
+                  break;
+    }
+    this.paymentDetails.id = this.data.id;
+    this.commonService.displayLoader(true);
+    this.commonService.UpdatePaymentDetails(this.paymentDetails).subscribe(
+      response => {
+        this.commonService.displayLoader(false);
+      }, (err) => {
+        console.log('error occured', err);
+        this.commonService.displayLoader(false);
       }
-    if (this.data.paymentType === TransactionType.Purchase) {
-        this.purchaseOrderService.UpdatePaymentDetails(
-          this.data.id, this.paymentDetails.id, paymentStatus
-          ).subscribe(
-            (response: boolean) => {
-              this.paymentDetailsAdded = response;
-            }, (err) => {
-              console.log('error occured in adding payment details', err);
-            }
-          );
-        }
+    );
+    
   }
 }
