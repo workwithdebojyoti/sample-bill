@@ -61,6 +61,7 @@ export class SellDetailsComponent implements OnInit {
 
   openDialog(cell: number): void {
     this.selectedSellItem = this.monthlySellList[cell];
+    debugger;
     this.paymentInfo = this.selectedSellItem.paymentDetails;
     
     const dialogRef = this.dialog.open(ModalDialogComponent, {

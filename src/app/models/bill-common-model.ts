@@ -136,12 +136,12 @@ export class MonthlyExpense {
 
 export class PaymentDetails extends BaseEntity{
     paymentAmount: number;
-    paymentMode: string;
+    paymentMode: number; 
     paymentReferenceNumber;
     paymentDate: Date;
-    paymentType: number;
+    paymentType: string;
     paymentStatus: number;
-    paymentReceived: number;
+    billAmount: number;
     /**
      *
      */
@@ -209,10 +209,16 @@ export enum FileType {
     Pdf = '.pdf'
 }
 
+// export enum PaymentMode {
+//     Cash = 'cash', // 1
+//     Online = 'online', // 2
+//     Cheque = 'cheque' // 3
+// }
+
 export enum PaymentMode {
-    Cash = 'cash', // 1
-    Online = 'online', // 2
-    Cheque = 'cheque' // 3
+        Cash =  1,
+        Online = 2,
+        Cheque = 3
 }
 
 export class DeliveryDetails {

@@ -4,55 +4,52 @@
   </div>
   <div class="card-body">
     <form>
-        <!-- <div class="row">
-          <label class="ml-3 mr-3">Bill Amount</label>
+      <div class="row">
+        <label class="ml-3 mr-3">Payment due : {{ data.billAmount - paymentRecievedControl.value}}</label>
+      </div>
+      <div class="row">
+        <div class="form-group ml-3">
+          <label class="mt-3 mr-3">Payment recieved</label>
           <mat-form-field class="example-full-width">
-              <input matInput [formControl]='billAmountControl' disabled>
+            <input matInput [formControl]='paymentRecievedControl' disabled>
           </mat-form-field>
-        </div> -->
-        <div class="row">
-          <label class="ml-3 mr-3">Payment due : {{ data.paymentAmount - paymentRecievedControl.value}}</label>
         </div>
-        <div class="row">
-            <label class="ml-3 mr-3">Payment recieved</label>
-            <mat-form-field class="example-full-width">
-                <input matInput [formControl]='paymentRecievedControl' disabled>
-            </mat-form-field>
-          </div>
-        <!-- <div class="row">
-          <div class="form-check ml-3">
-              <input type="checkbox" id="exampleCheck1" class="mr-3" [formControl]='paymentStatusControl'>
-              <label for="exampleCheck1">Check, if full payment recieved.</label>
-          </div>
-        </div> -->
-        <div class="row">
-          <div class="form-group ml-3">
-            <label class="mr-3">Payment Mode</label>
-            <mat-form-field>
-              <mat-select [formControl]='paymentTypeControl'>
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let paymentMode of paymentModes" [value]="paymentMode">
-                  {{paymentMode}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+
+      </div>
+      
+      <div class="row">
+        <div class="form-group ml-3">
+          <label class="mr-3">Payment Mode</label>
+          <mat-form-field>
+            <mat-select [formControl]='paymentTypeControl'>
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let paymentMode of paymentModes" [value]="paymentMode">
+                {{paymentMode}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        <div class="row" *ngIf='paymentTypeControl.value === "Cheque" || paymentTypeControl.value === "Online"'>
-          <label class="ml-3 mr-3">Ref No.</label>
+      </div>
+      <div class="row" *ngIf='paymentTypeControl.value === "Cheque" || paymentTypeControl.value === "Online"'>
+        <div class="form-group ml-3">
+          <label class="mt-3 mr-3">Ref No.</label>
           <mat-form-field class="example-full-width">
-              <input matInput [formControl]='paymentRefNumberControl'>
-            </mat-form-field>
-          <!-- <input class="col-xs-4 form-control" type="text" id="paymentRefNo" [formControl]='paymentRefNumberControl'> -->
+            <input matInput [formControl]='paymentRefNumberControl'>
+          </mat-form-field>
         </div>
-        <div class="row">
-          <div class="col-6">
-              <button class="btn btn-primary mr-5" mat-dialog-close>Cancel</button>
-              <button class="btn btn-primary" mat-dialog-close *ngIf='data.paymentID === 0' (click)='addPaymentDetails()'>Add</button>
-              <button class="btn btn-primary" mat-dialog-close *ngIf='data.paymentID > 0' (click) = 'UpdateTransactionPaymentStatus()'>Update</button>
-          </div>
+        
+        <!-- <input class="col-xs-4 form-control" type="text" id="paymentRefNo" [formControl]='paymentRefNumberControl'> -->
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <!-- <button class="btn btn-primary" mat-dialog-close *ngIf='data.id === 0' (click)='addPaymentDetails()'>Add</button> -->
+          <button class="w3-button w3-green" style="min-width: 120px;" mat-dialog-close *ngIf='data.id > 0'
+            (click)='UpdateTransactionPaymentStatus()'>Update</button>
+          <button class="w3-button w3-grey" style="min-width: 120px;" mat-dialog-close>Cancel</button>
+
         </div>
+      </div>
     </form>
-    
+
   </div>
 </div>

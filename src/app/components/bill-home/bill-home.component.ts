@@ -226,13 +226,13 @@ export class BillHomeComponent implements OnInit {
 
   generatePaymentDetailsRequest(): void {
     this.paymentDetails = new PaymentDetails();
-    this.paymentDetails.paymentMode = PaymentType.Sell;
-    this.paymentDetails.paymentType = null;
+    this.paymentDetails.paymentType = PaymentType.Sell;
+    this.paymentDetails.paymentMode = 1;
     this.paymentDetails.paymentStatus = null;
     this.paymentDetails.paymentDate = null;
     this.paymentDetails.paymentAmount = 0;
     this.paymentDetails.paymentReferenceNumber = null;
-    this.paymentDetails.paymentReceived = 0;
+    this.paymentDetails.billAmount = this.total;
   }
 
   insertDeliveryAndPaymentDetailsForBill(): void {

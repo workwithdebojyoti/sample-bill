@@ -13,7 +13,7 @@ export class ModalDialogComponent implements OnInit {
   paymentDetailsAdded: boolean;
   paymentDetails: PaymentDetails = new PaymentDetails();
   headerContent = 'Update payment recieved status';
-  paymentModes: Array<string> = ['Cash', 'Cheque', 'Net Banking'];
+  paymentModes: Array<string> = ['Cash', 'Online', 'Cheque'];
   paymentTypeControl = new FormControl('', [Validators.required]);
   paymentStatusControl = new FormControl('', [Validators.required]);
   paymentRefNumberControl = new FormControl('', [Validators.required]);
@@ -23,6 +23,8 @@ export class ModalDialogComponent implements OnInit {
               private purchaseOrderService: PurchaseOrderService) {
       // this.billAmountControl.setValue(data.billTotal);
       this.paymentRefNumberControl.setValue('N/A');
+      debugger;
+      console.log(this.data.billAmount);
     }
 
   ngOnInit() {
@@ -56,14 +58,14 @@ export class ModalDialogComponent implements OnInit {
   }
 
   SetInitialValues(): void {
-    this.paymentTypeControl.setValue(this.paymentDetails.paymentType -1);
+    this.paymentTypeControl.setValue(this.paymentDetails.paymentMode);
     this.paymentRefNumberControl.setValue(this.paymentDetails.paymentReferenceNumber);
-    this.paymentRecievedControl.setValue(this.paymentDetails.paymentReceived);
+    this.paymentRecievedControl.setValue(this.paymentDetails.paymentAmount);
     this.paymentDetails.paymentAmount
   }
   GetFormValues(): void {
     this.paymentDetails.paymentAmount = this.paymentRecievedControl.value;
-    this.paymentDetails.paymentMode = this.paymentTypeControl.value;
+    this.paymentDetails.paymentMode = this.paymentTypeControl.value + 1;
     this.paymentDetails.paymentReferenceNumber = this.paymentRefNumberControl.value;
   }
   UpdateTransactionPaymentStatus(): void {
@@ -71,7 +73,7 @@ export class ModalDialogComponent implements OnInit {
     if (+this.paymentRecievedControl.value === this.data.paymentAmount) {
       paymentStatus = 'Done';
     }
-    if (this.data.paymentMode === TransactionType.Sell) {
+    if (this.data.paymentType === TransactionType.Sell) {
       this.billService.UpdatePaymentDetails(
         this.data.id, this.paymentDetails.id, paymentStatus
         ).subscribe(
@@ -82,7 +84,7 @@ export class ModalDialogComponent implements OnInit {
           }
         );
       }
-    if (this.data.paymentMode === TransactionType.Purchase) {
+    if (this.data.paymentType === TransactionType.Purchase) {
         this.purchaseOrderService.UpdatePaymentDetails(
           this.data.id, this.paymentDetails.id, paymentStatus
           ).subscribe(
